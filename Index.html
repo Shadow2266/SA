@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>臺灣醫院護理師工作滿意度量表</title>
+    <style>
+        /* CSS 樣式保持不變 */
+        :root {
+            --primary-color: #2c7a7b;
+            --bg-color: #f7fafc;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+            --error-color: #e53e3e;
+            --focus-color: #319795;
+        }
+        body { font-family: "Microsoft JhengHei", "PingFang TC", sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        header { text-align: center; margin-bottom: 40px; border-bottom: 2px solid var(--primary-color); padding-bottom: 20px; }
+        h1 { color: var(--primary-color); font-size: 1.8rem; margin-bottom: 10px; }
+        .intro { font-size: 0.95rem; color: #4a5568; text-align: left; background-color: #f0fff4; padding: 15px; border-radius: 5px; border-left: 5px solid var(--primary-color); }
+        section { margin-bottom: 40px; }
+        h2 { background-color: var(--primary-color); color: white; padding: 10px 15px; border-radius: 5px; font-size: 1.2rem; margin-bottom: 20px; }
+        .question-group { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
+        .question-text { font-weight: bold; margin-bottom: 12px; display: block; font-size: 1.05rem; }
+        .scale-options { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+        .scale-option { flex: 1; min-width: 80px; text-align: center; position: relative; }
+        .scale-option input[type="radio"] { display: none; }
+        .scale-option label { display: flex; align-items: center; justify-content: center; padding: 10px 5px; background: #edf2f7; border-radius: 5px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; height: 100%; }
+        .scale-option input[type="radio"]:checked + label { background-color: var(--primary-color); color: white; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .scale-option label:hover { background-color: #cbd5e0; }
+        .reason-box { display: none; margin-top: 15px; padding: 15px; background-color: #fff5f5; border-radius: 8px; border: 1px solid #feb2b2; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .reason-box label { display: block; font-size: 0.9rem; color: #c53030; margin-bottom: 8px; font-weight: bold; }
+        .reason-box textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; font-family: inherit; resize: vertical; min-height: 80px; box-sizing: border-box; }
+        .reason-box textarea:focus { outline: none; border-color: var(--error-color); box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2); }
+        .char-count { text-align: right; font-size: 0.8rem; color: #718096; margin-top: 5px; }
+        .form-row { margin-bottom: 20px; padding: 10px; background-color: #fff; border-bottom: 1px solid #eee; }
+        .form-row label { display: block; font-weight: bold; margin-bottom: 8px; color: #2d3748; }
+        .form-row select, .form-row input[type="text"], .form-row input[type="number"], .form-row input[type="email"] { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; font-size: 1rem; }
+        .radio-group { display: flex; flex-wrap: wrap; gap: 15px; }
+        .radio-group label { display: flex; align-items: center; font-weight: normal; cursor: pointer; margin-bottom: 0; }
+        .radio-group input[type="radio"] { margin-right: 5px; }
+        .btn-submit { display: block; width: 100%; padding: 15px; background-color: var(--primary-color); color: white; font-size: 1.2rem; border: none; border-radius: 5px; cursor: pointer; transition: background 0.3s; margin-top: 30px; }
+        .btn-submit:hover { background-color: #234e52; }
+        footer { text-align: center; margin-top: 50px; font-size: 0.8rem; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        @media (max-width: 600px) { .scale-options { flex-direction: column; gap: 8px; } .scale-option label { justify-content: flex-start; padding-left: 20px; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>臺灣醫院護理師工作滿意度量表</h1>
+        <div class="intro">
+            <p>親愛的護理同仁，您好：</p>
+            <p>請就您對目前工作各面向的滿意程度，逐項勾選最符合您實際感受的答案。若您對某項感到<strong>不滿意</strong>或<strong>非常不滿意</strong>，請簡述原因，協助我們改善。</p>
+        </div>
+    </header>
+
+    <form id="surveyForm">
+        <section id="satisfaction-section">
+            <h2>工作滿意度量表</h2>
+            <p style="color: #e53e3e; font-weight: bold; margin-bottom: 10px;">請逐項勾選最符合您實際感受的答案</p>
+            <p style="color: #718096; font-size: 0.9rem; margin-bottom: 20px;">評分說明：5=非常滿意, 4=滿意, 3=普通, 2=不滿意, 1=非常不滿意</p>
+            <div id="questions-container"></div>
+        </section>
+
+        <section id="basic-info-section">
+            <h2>基本資料</h2>
+
+            <div class="form-row">
+                <label>研究代號 (Research ID)</label>
+                <input type="text" name="research_id" placeholder="若無需代號可免填">
+            </div>
+
+            <div class="form-row">
+                <label>電子郵件 (Email)</label>
+                <input type="email" name="email" placeholder="example@email.com (選填)">
+            </div>
+
+            <div class="form-row">
+                <label>1. 機構縣市</label>
+                <select name="location" required>
+                    <option value="" disabled selected>請選擇</option>
+                    <option value="基隆市">基隆市</option>
+                    <option value="台北市">台北市</option>
+                    <option value="新北市">新北市</option>
+                    <option value="桃園市">桃園市</option>
+                    <option value="新竹縣市">新竹縣市</option>
+                    <option value="苗栗縣">苗栗縣</option>
+                    <option value="台中市">台中市</option>
+                    <option value="彰化縣">彰化縣</option>
+                    <option value="南投縣">南投縣</option>
+                    <option value="雲林縣">雲林縣</option>
+                    <option value="嘉義縣市">嘉義縣市</option>
+                    <option value="台南市">台南市</option>
+                    <option value="高雄市">高雄市</option>
+                    <option value="屏東縣市">屏東縣市</option>
+                    <option value="宜蘭縣市">宜蘭縣市</option>
+                    <option value="花蓮縣市">花蓮縣市</option>
+                    <option value="台東縣市">台東縣市</option>
+                    <option value="金門縣">金門縣</option>
+                    <option value="澎湖縣">澎湖縣</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label>2. 機構層級</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="level" value="醫學中心" required> 醫學中心</label>
+                    <label><input type="radio" name="level" value="區域醫院"> 區域醫院</label>
+                    <label><input type="radio" name="level" value="地區醫院"> 地區醫院</label>
+                    <label><input type="radio" name="level" value="精神專科醫院"> 精神專科醫院</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>3. 工作科別</label>
+                <select name="department" required onchange="checkOther(this, 'dept_other')">
+                    <option value="" disabled selected>請選擇</option>
+                    <option value="內外科病房">內外科病房</option>
+                    <option value="急診">急診</option>
+                    <option value="婦產科">婦產科</option>
+                    <option value="兒科">兒科</option>
+                    <option value="加護單位">加護單位</option>
+                    <option value="門診">門診</option>
+                    <option value="手術室">手術室</option>
+                    <option value="精神科">精神科</option>
+                    <option value="其他">其他</option>
+                </select>
+                <input type="text" id="dept_other" name="department_other" placeholder="請說明" style="display:none; margin-top:5px;">
+            </div>
+
+            <div class="form-row">
+                <label>4. 性別</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="生理男" required> 生理男</label>
+                    <label><input type="radio" name="gender" value="生理女"> 生理女</label>
+                    <label><input type="radio" name="gender" value="不便透露"> 不便透露</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>5. 出生民國年</label>
+                <input type="number" name="birth_year" placeholder="例如：75" required>
+            </div>
+
+            <div class="form-row">
+                <label>6. 教育程度</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="education" value="職校" required> 職校</label>
+                    <label><input type="radio" name="education" value="專科"> 專科</label>
+                    <label><input type="radio" name="education" value="大學"> 大學</label>
+                    <label><input type="radio" name="education" value="研究所以上"> 研究所以上</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>7. 進階層級</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="ladder" value="N" required> N</label>
+                    <label><input type="radio" name="ladder" value="N1"> N1</label>
+                    <label><input type="radio" name="ladder" value="N2"> N2</label>
+                    <label><input type="radio" name="ladder" value="N3"> N3</label>
+                    <label><input type="radio" name="ladder" value="N4"> N4</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>8. 護理總年資 (年)</label>
+                <input type="number" name="total_experience" step="0.1" required>
+            </div>
+
+            <div class="form-row">
+                <label>9. 目前機構護理年資 (年)</label>
+                <input type="number" name="current_experience" step="0.1" required>
+            </div>
+
+            <div class="form-row">
+                <label>10. 婚姻狀況</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="marital" value="單身" required> 單身</label>
+                    <label><input type="radio" name="marital" value="已婚"> 已婚</label>
+                    <label><input type="radio" name="marital" value="其他"> 其他</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>11. 宗教信仰</label>
+                <select name="religion" required onchange="checkOther(this, 'rel_other')">
+                    <option value="無信仰">無信仰</option>
+                    <option value="佛教">佛教</option>
+                    <option value="道教">道教</option>
+                    <option value="基督">基督</option>
+                    <option value="天主教">天主教</option>
+                    <option value="其他">其他</option>
+                </select>
+                <input type="text" id="rel_other" name="religion_other" placeholder="請說明" style="display:none; margin-top:5px;">
+            </div>
+        </section>
+
+        <button type="submit" class="btn-submit">提交問卷</button>
+    </form>
+
+    <footer>
+        <p>本滿意度量表由中華民國護理師護士公會全國聯合會研訂(2017)</p>
+    </footer>
+</div>
+
+<script>
+    // --- 關鍵修改：已更新為您提供的新網址 ---
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbw_c4IhKapJBA-yOfi1ULBVswmTwhAXfkY_HSbs8Aty0qRK2ulyJKgLhmJ5cQNAfVK9/exec';
+    // ------------------------------------
+
+    const questions = [
+        "1. 我對於機構提供的個人防護設施及配備感到",
+        "2. 我對於各項作業的資訊化感到",
+        "3. 我對於工作環境的安全性感到",
+        "4. 我對於機構提供醫療設備的品項及數量感到",
+        "5. 我對於機構提供病人的照護模式感到",
+        "6. 我對於機構支持護理人員進修感到",
+        "7. 我對於機構提供的專業訓練感到",
+        "8. 我對於服務機構的退休制度感到",
+        "9. 我對於職位的升遷機會感到",
+        "10. 我對於現有的薪資報酬感到",
+        "11. 我對於能自我掌握工作的狀況感到",
+        "12. 我對於自己處理危機的能力感到",
+        "13. 我對於工作的專業自主感到",
+        "14. 我對於自己有參與各項重要決策的機會感到",
+        "15. 我對於自己的工作能力能獲得同儕的認同與肯定感到",
+        "16. 我對於自己的工作能力能獲得主管的認同與肯定感到",
+        "17. 我對於能從工作上獲得成就感感到",
+        "18. 我對於在工作上能得到學習的機會感到",
+        "19. 我對於與其他醫事人員的互動情形感到",
+        "20. 我對於與醫師共同合作情形感到",
+        "21. 我對於與護理人員共同合作情形感到",
+        "22. 我對於與行政人員的互動情形感到",
+        "23. 我對於我的工作受到跨團隊成員的相互尊重感到",
+        "24. 我對於與護理同儕的互動情形感到",
+        "25. 我對於直屬護理主管的支持與關懷感到",
+        "26. 我對於直屬護理主管的領導能力感到",
+        "27. 我對於直屬護理主管有能力凝聚團隊向心力感到",
+        "28. 我對於直屬護理主管能公平與合理的對待感到（如：升遷、考核、獎勵及福利等）",
+        "29. 我對於目前非護理專業的工作量感到",
+        "30. 我對於目前護理專業的工作量感到",
+        "31. 我對於自己承擔目前護理工作的困難度感到",
+        "32. 整體來說，我對於目前工作的滿意度感到"
+    ];
+
+    const container = document.getElementById('questions-container');
+
+    questions.forEach((q, index) => {
+        const id = index + 1;
+        const html = `
+            <div class="question-group">
+                <label class="question-text">${q}</label>
+                <div class="scale-options">
+                    <div class="scale-option">
+                        <input type="radio" name="q${id}" id="q${id}_5" value="5" onclick="toggleReason(${id}, 5)" required>
+                        <label for="q${id}_5">非常滿意</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q${id}" id="q${id}_4" value="4" onclick="toggleReason(${id}, 4)">
+                        <label for="q${id}_4">滿意</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q${id}" id="q${id}_3" value="3" onclick="toggleReason(${id}, 3)">
+                        <label for="q${id}_3">普通</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q${id}" id="q${id}_2" value="2" onclick="toggleReason(${id}, 2)">
+                        <label for="q${id}_2">不滿意</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q${id}" id="q${id}_1" value="1" onclick="toggleReason(${id}, 1)">
+                        <label for="q${id}_1">非常不滿意</label>
+                    </div>
+                </div>
+                <div id="reason-box-${id}" class="reason-box">
+                    <label for="reason_text_${id}">請說明不滿意的原因 (限200字元)：</label>
+                    <textarea id="reason_text_${id}" name="reason_q${id}" maxlength="200" placeholder="請簡述您的想法..." oninput="updateCount(this, ${id})"></textarea>
+                    <div id="char-count-${id}" class="char-count">0/200</div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += html;
+    });
+
+    function toggleReason(questionId, score) {
+        const box = document.getElementById(`reason-box-${questionId}`);
+        const textarea = document.getElementById(`reason_text_${questionId}`);
+        if (score <= 2) {
+            box.style.display = 'block';
+            textarea.setAttribute('required', 'required');
+        } else {
+            box.style.display = 'none';
+            textarea.removeAttribute('required');
+            textarea.value = '';
+            document.getElementById(`char-count-${questionId}`).innerText = '0/200';
+        }
+    }
+
+    function updateCount(textarea, id) {
+        document.getElementById(`char-count-${id}`).innerText = `${textarea.value.length}/200`;
+    }
+
+    function checkOther(select, targetId) {
+        const target = document.getElementById(targetId);
+        if (select.value === '其他') {
+            target.style.display = 'block';
+            target.setAttribute('required', 'required');
+        } else {
+            target.style.display = 'none';
+            target.value = '';
+            target.removeAttribute('required');
+        }
+    }
+
+    const form = document.getElementById('surveyForm');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.querySelector('.btn-submit');
+        const originalText = btn.innerText;
+        btn.innerText = '資料傳送中，請稍候...';
+        btn.disabled = true;
+        btn.style.backgroundColor = '#718096';
+
+        const formData = new FormData(form);
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formData,
+            mode: 'no-cors'
+        })
+        .then(() => {
+            alert('問卷提交成功！感謝您的寶貴意見。');
+            form.reset();
+            document.querySelectorAll('.reason-box').forEach(box => box.style.display = 'none');
+            
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.style.backgroundColor = ''; 
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+            alert('傳送失敗，請檢查網路連線。');
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.style.backgroundColor = '';
+        });
+    });
+</script>
+</body>
+</html>
